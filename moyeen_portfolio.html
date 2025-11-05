@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moyeen Haider - Flutter Developer</title>
     <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #08071b, #121347 35%, #031a34 85%);
+            --card-bg: rgba(15, 18, 55, 0.7);
+            --card-border: rgba(0, 245, 255, 0.25);
+            --accent: #00f5ff;
+            --accent-strong: #0080ff;
+            --text-primary: #ffffff;
+            --text-secondary: #b5c0d0;
+            --text-muted: #8590a3;
+            --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.45);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,24 +25,47 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #fff;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
             overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.15), transparent 60%);
+            z-index: -2;
+            filter: blur(40px);
+        }
+
+        body::before {
+            top: -150px;
+            right: -200px;
+        }
+
+        body::after {
+            bottom: -200px;
+            left: -150px;
         }
 
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(15, 12, 41, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(8, 7, 27, 0.92);
+            backdrop-filter: blur(16px);
             padding: 1.2rem 5%;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .nav-content {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -39,139 +74,204 @@
 
         .logo {
             font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #00f5ff, #0080ff);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            background: linear-gradient(45deg, var(--accent), var(--accent-strong));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             list-style: none;
         }
 
         .nav-links a {
-            color: #fff;
+            color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s;
             font-weight: 500;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: #00f5ff;
+            color: var(--accent);
+            transform: translateY(-2px);
         }
 
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 2rem 5%;
+            padding: 8rem 5% 6rem;
             position: relative;
             overflow: hidden;
         }
 
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(0, 245, 255, 0.15), transparent 45%),
+                        radial-gradient(circle at bottom left, rgba(0, 128, 255, 0.12), transparent 40%);
+            z-index: -1;
+        }
+
         .hero-content {
-            max-width: 1400px;
+            max-width: 1200px;
             width: 100%;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 4rem;
             align-items: center;
         }
 
         .hero-text h1 {
-            font-size: 3.5rem;
+            font-size: 3.6rem;
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, #00f5ff, #0080ff);
+            line-height: 1.1;
+            background: linear-gradient(60deg, var(--accent), var(--accent-strong));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero-text h2 {
-            font-size: 2rem;
-            color: #a0a0a0;
+            font-size: 1.9rem;
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
+            letter-spacing: 0.04em;
+            text-align: left;
         }
 
         .hero-text p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             line-height: 1.8;
-            color: #c0c0c0;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
+            max-width: 520px;
         }
 
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            margin-bottom: 2rem;
+        .hero-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
-        .stat {
-            text-align: center;
+        .stat-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 245, 255, 0.4);
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #00f5ff;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent);
         }
 
         .stat-label {
-            color: #a0a0a0;
-            margin-top: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         .cta-buttons {
             display: flex;
-            gap: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
+            padding: 0.95rem 2.2rem;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-size: 1rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+            letter-spacing: 0.04em;
             text-decoration: none;
-            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .btn-primary {
-            background: linear-gradient(45deg, #00f5ff, #0080ff);
-            color: #000;
+            background: linear-gradient(45deg, var(--accent), var(--accent-strong));
+            color: #061226;
+            box-shadow: 0 12px 35px rgba(0, 128, 255, 0.35);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.4);
         }
 
         .btn-secondary {
             background: transparent;
-            border: 2px solid #00f5ff;
-            color: #00f5ff;
+            border-color: rgba(0, 245, 255, 0.5);
+            color: var(--accent);
         }
 
         .btn-secondary:hover {
-            background: #00f5ff;
-            color: #000;
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.2);
         }
 
         .hero-visual {
             position: relative;
-            height: 500px;
+        }
+
+        .floating-badge {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            background: linear-gradient(120deg, rgba(0, 245, 255, 0.2), rgba(0, 128, 255, 0.25));
+            border: 1px solid rgba(0, 245, 255, 0.4);
+            border-radius: 16px;
+            padding: 1.2rem 1.6rem;
+            text-align: left;
+            backdrop-filter: blur(18px);
+            box-shadow: var(--shadow-lg);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-badge h4 {
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .floating-badge p {
+            margin-top: 0.5rem;
+            font-weight: 600;
+            color: var(--accent);
         }
 
         .code-window {
-            background: rgba(30, 30, 50, 0.8);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 245, 255, 0.2);
+            background: rgba(12, 15, 45, 0.9);
+            border-radius: 16px;
+            padding: 1.6rem;
+            border: 1px solid rgba(0, 245, 255, 0.25);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-window::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, rgba(0, 245, 255, 0.08), transparent 45%);
+            pointer-events: none;
         }
 
         .window-header {
@@ -188,9 +288,9 @@
 
         .code-content {
             font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #a0a0a0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
         }
 
         .code-keyword {
@@ -205,102 +305,203 @@
             color: #f1fa8c;
         }
 
+        .code-comment {
+            color: #6272a4;
+        }
+
+        main {
+            padding-top: 2rem;
+        }
+
         section {
             padding: 6rem 5%;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         h2 {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
+            font-size: 2.6rem;
             text-align: center;
-            background: linear-gradient(45deg, #00f5ff, #0080ff);
+            margin-bottom: 1rem;
+            background: linear-gradient(60deg, var(--accent), var(--accent-strong));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .skills-grid {
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.05rem;
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        #about .about-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .about-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .about-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .focus-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .focus-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 2rem;
         }
 
         .skill-card {
-            background: rgba(30, 30, 50, 0.6);
+            background: var(--card-bg);
             padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 245, 255, 0.2);
-            transition: all 0.3s;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .skill-card:hover {
-            transform: translateY(-5px);
-            border-color: #00f5ff;
-            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.3);
+            transform: translateY(-6px);
+            border-color: rgba(0, 245, 255, 0.6);
         }
 
         .skill-card h3 {
-            color: #00f5ff;
+            color: var(--accent);
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+        }
+
+        .skill-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
         }
 
         .skill-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            gap: 0.6rem;
+            margin-top: 1.2rem;
         }
 
         .tag {
-            background: rgba(0, 245, 255, 0.1);
-            color: #00f5ff;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
+            background: rgba(0, 245, 255, 0.12);
+            color: var(--accent);
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
             font-size: 0.85rem;
-            border: 1px solid rgba(0, 245, 255, 0.3);
+            border: 1px solid rgba(0, 245, 255, 0.25);
         }
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.2rem;
         }
 
         .project-card {
-            background: rgba(30, 30, 50, 0.6);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 245, 255, 0.2);
-            transition: all 0.3s;
+            background: var(--card-bg);
+            border-radius: 18px;
+            border: 1px solid rgba(0, 245, 255, 0.18);
+            padding: 2.2rem 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.35s ease, border-color 0.35s ease;
         }
 
         .project-card:hover {
             transform: translateY(-8px);
-            border-color: #00f5ff;
-            box-shadow: 0 15px 40px rgba(0, 245, 255, 0.3);
+            border-color: rgba(0, 245, 255, 0.45);
         }
 
-        .project-header {
-            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(0, 128, 255, 0.2));
-            padding: 2rem;
+        .project-meta {
+            font-size: 0.8rem;
+            letter-spacing: 0.09em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
         }
 
-        .project-header h3 {
-            color: #00f5ff;
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
+        .project-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.9rem;
+            color: var(--accent);
         }
 
-        .project-body {
-            padding: 2rem;
-        }
-
-        .project-body p {
-            color: #c0c0c0;
+        .project-card p {
+            color: var(--text-secondary);
             line-height: 1.6;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-highlights {
+            list-style: none;
+            color: var(--text-secondary);
+            display: grid;
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-highlights li {
+            position: relative;
+            padding-left: 1.4rem;
+        }
+
+        .project-highlights li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .project-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .project-links a {
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 0.35rem 0.85rem;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            border-radius: 999px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .project-links a:hover {
+            background: rgba(0, 245, 255, 0.18);
+            color: var(--text-primary);
         }
 
         .experience-timeline {
@@ -308,145 +509,317 @@
             padding-left: 3rem;
         }
 
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 245, 255, 0.6), transparent 80%);
+        }
+
         .timeline-item {
             position: relative;
-            margin-bottom: 3rem;
-            padding-left: 2rem;
+            margin-bottom: 2.8rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -3rem;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            background: #00f5ff;
+            left: -1.05rem;
+            top: 0.6rem;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: -2.55rem;
-            top: 20px;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(0, 245, 255, 0.5), transparent);
-        }
-
-        .timeline-item:last-child::after {
-            display: none;
+            background: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.45);
         }
 
         .timeline-content {
-            background: rgba(30, 30, 50, 0.6);
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
             padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 245, 255, 0.2);
+            box-shadow: var(--shadow-lg);
         }
 
         .timeline-content h3 {
-            color: #00f5ff;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin-bottom: 0.4rem;
         }
 
         .timeline-content .company {
-            color: #a0a0a0;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
         }
 
         .timeline-content .duration {
-            color: #808080;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1.1rem;
         }
 
         .timeline-content ul {
             list-style: none;
-            padding-left: 0;
+            display: grid;
+            gap: 0.8rem;
+            color: var(--text-secondary);
         }
 
         .timeline-content li {
-            color: #c0c0c0;
-            line-height: 1.8;
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
             position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.6;
         }
 
         .timeline-content li::before {
             content: '▹';
             position: absolute;
             left: 0;
-            color: #00f5ff;
+            color: var(--accent);
+        }
+
+        .education-grid,
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .education-card,
+        .cert-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            padding: 2.2rem;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .education-card:hover,
+        .cert-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 245, 255, 0.45);
+        }
+
+        .education-card h3,
+        .cert-card h3 {
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .education-card p,
+        .cert-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .cert-card a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 0.6rem;
+        }
+
+        #contact {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #contact::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(140deg, rgba(0, 245, 255, 0.14), transparent 55%);
+            border-radius: 28px;
+            pointer-events: none;
+            z-index: -1;
         }
 
         .contact-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
+            grid-template-columns: minmax(320px, 1.05fr) minmax(320px, 0.95fr);
+            gap: 3rem;
+            align-items: stretch;
+            position: relative;
         }
 
-        .contact-info {
+        .contact-intro {
+            background: linear-gradient(145deg, rgba(0, 245, 255, 0.18), rgba(0, 128, 255, 0.12));
+            border-radius: 20px;
+            border: 1px solid rgba(0, 245, 255, 0.35);
+            padding: 2.6rem;
+            box-shadow: var(--shadow-lg);
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.6rem;
         }
 
-        .contact-item {
+        .contact-eyebrow {
+            letter-spacing: 0.16em;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .contact-intro h3 {
+            font-size: 2rem;
+            line-height: 1.25;
+            color: var(--text-primary);
+        }
+
+        .contact-intro p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 520px;
+        }
+
+        .availability-tags {
             display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: rgba(30, 30, 50, 0.6);
-            border-radius: 12px;
-            border: 1px solid rgba(0, 245, 255, 0.2);
-            transition: all 0.3s;
+            flex-wrap: wrap;
+            gap: 0.6rem;
         }
 
-        .contact-item:hover {
-            border-color: #00f5ff;
-            transform: translateX(10px);
+        .availability-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(6, 18, 38, 0.85);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--accent);
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            letter-spacing: 0.04em;
+        }
+
+        .contact-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .contact-cta .btn {
+            padding: 0.85rem 2.1rem;
+        }
+
+        .contact-details-stack {
+            display: grid;
+            gap: 1.4rem;
+        }
+
+        .contact-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            border: 1px solid var(--card-border);
+            padding: 1.8rem;
+            display: flex;
+            gap: 1.1rem;
+            align-items: flex-start;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 245, 255, 0.55);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+        }
+
+        .contact-card.accent {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.16), rgba(0, 128, 255, 0.1));
+            border-color: rgba(0, 245, 255, 0.55);
         }
 
         .contact-icon {
-            font-size: 1.5rem;
-            color: #00f5ff;
+            font-size: 1.9rem;
+            color: var(--accent);
         }
 
         .contact-details h4 {
-            color: #00f5ff;
-            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.45rem;
         }
 
-        .contact-details a {
-            color: #c0c0c0;
+        .contact-details a,
+        .contact-details span {
+            color: var(--text-secondary);
             text-decoration: none;
+            display: block;
+            line-height: 1.6;
+        }
+
+        .contact-details a:hover {
+            color: var(--accent);
+        }
+
+        .contact-note {
+            display: block;
+            margin-top: 0.35rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
         footer {
             text-align: center;
-            padding: 2rem;
-            background: rgba(15, 12, 41, 0.95);
-            color: #808080;
+            padding: 2.5rem 5%;
+            background: rgba(8, 7, 27, 0.92);
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                padding-top: 7rem;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-intro {
+                padding: 2.2rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .hero-content, .contact-grid {
-                grid-template-columns: 1fr;
+            .nav-links {
+                display: none;
             }
 
             .hero-text h1 {
                 font-size: 2.5rem;
             }
 
-            .nav-links {
-                display: none;
+            .hero-text h2 {
+                font-size: 1.4rem;
+            }
+
+            .contact-cta {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
     </style>
@@ -460,40 +833,50 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#certifications">Certifications</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
 
-    <section class="hero">
+    <header class="hero" id="home">
         <div class="hero-content">
             <div class="hero-text">
                 <h1>Moyeen Haider</h1>
-                <h2>Flutter Developer & AI Enthusiast</h2>
-                <p>Crafting innovative mobile experiences with 4 years of expertise in Flutter, Firebase, and cutting-edge AI integration. Specialized in clean architecture and scalable solutions.</p>
-                
-                <div class="hero-stats">
-                    <div class="stat">
+                <h2>Flutter Developer, Security Advocate, AI Integrator</h2>
+                <p>Product-focused engineer crafting future-ready mobile experiences across fintech, healthtech, and IoT. I blend clean architecture, security-first thinking, and AI-driven features to ship resilient apps that scale from concept to App Store.</p>
+
+                <div class="hero-highlights">
+                    <div class="stat-card">
                         <div class="stat-number">4+</div>
-                        <div class="stat-label">Years Experience</div>
+                        <div class="stat-label">Years Building</div>
                     </div>
-                    <div class="stat">
+                    <div class="stat-card">
                         <div class="stat-number">15+</div>
-                        <div class="stat-label">Projects Delivered</div>
+                        <div class="stat-label">Apps Delivered</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number">3</div>
-                        <div class="stat-label">Companies</div>
+                    <div class="stat-card">
+                        <div class="stat-number">11</div>
+                        <div class="stat-label">Flagship Projects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Product Teams</div>
                     </div>
                 </div>
 
                 <div class="cta-buttons">
-                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                    <a href="#projects" class="btn btn-secondary">View Projects</a>
+                    <a href="#contact" class="btn btn-primary">Collaborate With Me</a>
+                    <a href="https://linkedin.com/in/moyeen-haider" target="_blank" class="btn btn-secondary">View LinkedIn</a>
                 </div>
             </div>
 
             <div class="hero-visual">
+                <div class="floating-badge">
+                    <h4>Currently</h4>
+                    <p>Shipping Flutter apps @ Appventurez</p>
+                </div>
                 <div class="code-window">
                     <div class="window-header">
                         <div class="window-dot" style="background: #ff5f56;"></div>
@@ -501,295 +884,454 @@
                         <div class="window-dot" style="background: #27c93f;"></div>
                     </div>
                     <div class="code-content">
-                        <span class="code-keyword">class</span> <span class="code-function">FlutterDeveloper</span> {<br>
-                        &nbsp;&nbsp;<span class="code-keyword">final</span> skills = [<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'Flutter'</span>,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'Firebase'</span>,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'Clean Architecture'</span>,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'AI Integration'</span>,<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'RESTful APIs'</span><br>
-                        &nbsp;&nbsp;];<br>
+                        <span class="code-comment">// Dart-first way of building resilient products</span><br>
+                        <span class="code-keyword">class</span> <span class="code-function">MoyeenHaider</span> <span class="code-keyword">extends</span> <span class="code-function">FlutterArchitect</span> {<br>
+                        &nbsp;&nbsp;<span class="code-keyword">final</span> specialties = [<span class="code-string">'Security'</span>, <span class="code-string">'Clean Architecture'</span>, <span class="code-string">'AI Integrations'</span>];<br>
+                        &nbsp;&nbsp;<span class="code-keyword">final</span> toolchain = {<span class="code-string">'state'</span>: [<span class="code-string">'Provider'</span>, <span class="code-string">'GetX'</span>, <span class="code-string">'Bloc'</span>]};<br>
                         <br>
-                        &nbsp;&nbsp;<span class="code-keyword">void</span> <span class="code-function">buildAmazingApps</span>() {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-string">'Innovation + Quality'</span>;<br>
+                        &nbsp;&nbsp;<span class="code-keyword">Future</span><<span class="code-function">Release</span>> <span class="code-function">ship</span>(<span class="code-function">ProjectBrief</span> brief) <span class="code-keyword">async</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">await</span> <span class="code-function">apply</span>(<span class="code-string">'SOLID'</span>).<span class="code-function">and</span>(<span class="code-string">'DI'</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">await</span> <span class="code-function">integrate</span>(<span class="code-string">'Stripe, Google Fit, ChatGPT'</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-function">Release</span>(quality: <span class="code-string">'store-ready'</span>, impact: brief.targetUsers);<br>
                         &nbsp;&nbsp;}<br>
-                        }
+                        }<br>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
-    <section id="skills">
-        <h2>Technical Expertise</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>Mobile Development</h3>
-                <p>Expert in cross-platform mobile app development with focus on performance and user experience.</p>
-                <div class="skill-tags">
-                    <span class="tag">Flutter (4 yrs)</span>
-                    <span class="tag">Dart (3 yrs)</span>
-                    <span class="tag">Android</span>
-                    <span class="tag">iOS</span>
+    <main>
+        <section id="about">
+            <h2>About</h2>
+            <p class="section-subtitle">Based in Jamia Nagar, New Delhi, I partner with founders and product teams to turn complex requirements into immersive mobile journeys. My work sits at the intersection of Flutter craftsmanship, airtight security, and data-informed decision making.</p>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3>Core Mission</h3>
+                    <p>I streamline the path from ideation to launch for cross-platform applications. From architecting modular codebases to integrating analytics and AI, my focus is on predictable delivery and long-term maintainability.</p>
+                    <div class="focus-points">
+                        <div class="focus-card">
+                            <h4 style="color: var(--text-secondary); margin-bottom: 0.6rem;">Delivery DNA</h4>
+                            <p style="color: var(--text-muted);">App Store and Play Store deployments with rigorous testing, CI-friendly code, and airtight release processes.</p>
+                        </div>
+                        <div class="focus-card">
+                            <h4 style="color: var(--text-secondary); margin-bottom: 0.6rem;">Secure by Design</h4>
+                            <p style="color: var(--text-muted);">Certificate pinning, code obfuscation, and threat-aware architecture woven into every build.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="skill-card">
-                <h3>Architecture & Patterns</h3>
-                <p>Strong foundation in software architecture principles and design patterns for maintainable code.</p>
-                <div class="skill-tags">
-                    <span class="tag">Clean Architecture</span>
-                    <span class="tag">SOLID Principles</span>
-                    <span class="tag">Design Patterns</span>
-                    <span class="tag">MVVM/MVP</span>
-                </div>
-            </div>
-
-            <div class="skill-card">
-                <h3>Backend & Database</h3>
-                <p>Proficient in backend integration and database management for robust applications.</p>
-                <div class="skill-tags">
-                    <span class="tag">Firebase</span>
-                    <span class="tag">RESTful APIs (4 yrs)</span>
-                    <span class="tag">Hive</span>
-                    <span class="tag">SQLite</span>
-                </div>
-            </div>
-
-            <div class="skill-card">
-                <h3>AI & Integration</h3>
-                <p>Experience with AI/ML technologies and advanced API integrations.</p>
-                <div class="skill-tags">
-                    <span class="tag">ChatGPT API</span>
-                    <span class="tag">Prompt Engineering</span>
-                    <span class="tag">Google Gemini</span>
-                    <span class="tag">IoT (2 yrs)</span>
-                </div>
-            </div>
-
-            <div class="skill-card">
-                <h3>Security & Optimization</h3>
-                <p>Implementing secure and optimized solutions with best practices.</p>
-                <div class="skill-tags">
-                    <span class="tag">Security (2 yrs)</span>
-                    <span class="tag">Code Obfuscation</span>
-                    <span class="tag">Certificate Pinning</span>
-                    <span class="tag">Optimization (2 yrs)</span>
-                </div>
-            </div>
-
-            <div class="skill-card">
-                <h3>Payment & Services</h3>
-                <p>Integration of payment gateways and third-party services.</p>
-                <div class="skill-tags">
-                    <span class="tag">Stripe (1 yr)</span>
-                    <span class="tag">Razorpay</span>
-                    <span class="tag">Google Fit API</span>
-                    <span class="tag">Google Maps</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects">
-        <h2>Featured Projects</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-header">
-                    <h3>Davinci - AI Museum Guide</h3>
-                </div>
-                <div class="project-body">
-                    <p>AI-powered museum chatbot with ChatGPT API integration and voice-enabled queries for interactive tours.</p>
-                    <div class="skill-tags">
-                        <span class="tag">Flutter</span>
-                        <span class="tag">ChatGPT API</span>
-                        <span class="tag">Firebase</span>
-                        <span class="tag">Speech-to-Text</span>
+                <div class="about-card">
+                    <h3>What I Bring</h3>
+                    <p>Clean Architecture advocate, state management polyglot, and API-whisperer with hands-on experience across fintech, wellness, AI, media, and smart living. I champion clarity in code reviews, transparent client communication, and measurable outcomes.</p>
+                    <div class="focus-points">
+                        <div class="focus-card">
+                            <h4 style="color: var(--text-secondary); margin-bottom: 0.6rem;">Impact Metrics</h4>
+                            <p style="color: var(--text-muted);">15+ shipped products, multi-role financial workflows, subscription engines, and IoT-driven automation.</p>
+                        </div>
+                        <div class="focus-card">
+                            <h4 style="color: var(--text-secondary); margin-bottom: 0.6rem;">Collaboration</h4>
+                            <p style="color: var(--text-muted);">Figma-to-Flutter handoffs, stakeholder demos, and sprint rituals that keep teams aligned.</p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="project-card">
-                <div class="project-header">
-                    <h3>FitnEarn - Health Rewards</h3>
-                </div>
-                <div class="project-body">
-                    <p>Health and wellness app rewarding users for fitness activities with Google Fit integration and Razorpay payment gateway.</p>
+        <section id="skills">
+            <h2>Technical Expertise</h2>
+            <p class="section-subtitle">Modern Flutter engineering paired with production-grade practices, security controls, and data fluency.</p>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Mobile Engineering</h3>
+                    <p>Cross-platform delivery with emphasis on pixel-perfect UI, performance, and accessibility across iOS, Android, and web.</p>
                     <div class="skill-tags">
                         <span class="tag">Flutter</span>
-                        <span class="tag">Google Fit</span>
-                        <span class="tag">Razorpay</span>
-                        <span class="tag">Video</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <h3>EFL Click - Loan Platform</h3>
-                </div>
-                <div class="project-body">
-                    <p>Multi-type loan application with hierarchical approval system supporting property, vehicle, solar, and business loans.</p>
-                    <div class="skill-tags">
-                        <span class="tag">Flutter</span>
-                        <span class="tag">RESTful APIs</span>
-                        <span class="tag">Role-based System</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <h3>Ziro - Real Estate</h3>
-                </div>
-                <div class="project-body">
-                    <p>Property buying and selling platform with geolocation services, map-based search, and secure payment gateway.</p>
-                    <div class="skill-tags">
-                        <span class="tag">Flutter</span>
-                        <span class="tag">Stripe</span>
-                        <span class="tag">Firebase</span>
-                        <span class="tag">React</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <h3>IOPARK - Secure Key Sharing</h3>
-                </div>
-                <div class="project-body">
-                    <p>Digital house key-sharing app with Bluetooth/beacon technology for offline access in low-connectivity areas.</p>
-                    <div class="skill-tags">
-                        <span class="tag">Flutter</span>
-                        <span class="tag">Bluetooth</span>
-                        <span class="tag">Security</span>
-                        <span class="tag">Firebase</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="project-header">
-                    <h3>Noficcion - Streaming App</h3>
-                </div>
-                <div class="project-body">
-                    <p>Cross-platform streaming service for movies and documentaries with seamless viewing experience across devices.</p>
-                    <div class="skill-tags">
-                        <span class="tag">Flutter</span>
+                        <span class="tag">Dart</span>
                         <span class="tag">Android</span>
                         <span class="tag">iOS</span>
                         <span class="tag">Web</span>
                     </div>
                 </div>
+                <div class="skill-card">
+                    <h3>Architecture & State</h3>
+                    <p>Designing resilient codebases using SOLID, MVVM/MVP, and Clean Architecture, backed by DI patterns for scalable features.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Clean Architecture</span>
+                        <span class="tag">Provider</span>
+                        <span class="tag">GetX</span>
+                        <span class="tag">Bloc</span>
+                        <span class="tag">GetIt</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <h3>Security & Observability</h3>
+                    <p>Defense-in-depth approach covering certificate pinning, obfuscation, anti-tamper, analytics, and proactive debugging.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Certificate Pinning</span>
+                        <span class="tag">Code Obfuscation</span>
+                        <span class="tag">Analytics</span>
+                        <span class="tag">Testing</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <h3>Backend & Integrations</h3>
+                    <p>RESTful API design, data sync, and cloud functions tailored for transactional and real-time experiences.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Firebase</span>
+                        <span class="tag">Firestore</span>
+                        <span class="tag">Cloud Functions</span>
+                        <span class="tag">Stripe</span>
+                        <span class="tag">Hive</span>
+                        <span class="tag">SQLite</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <h3>AI & Analytics</h3>
+                    <p>Injecting intelligence with conversational AI, embeddings, data analytics, and ML-backed insights.</p>
+                    <div class="skill-tags">
+                        <span class="tag">ChatGPT API</span>
+                        <span class="tag">Google Gemini</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">NumPy</span>
+                        <span class="tag">Power BI</span>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <h3>Product Ops</h3>
+                    <p>Git-driven collaboration, refined release workflows, and data structures expertise that keeps features predictable.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Git</span>
+                        <span class="tag">GitHub</span>
+                        <span class="tag">GitLab</span>
+                        <span class="tag">App Deployment</span>
+                        <span class="tag">Data Structures</span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="experience">
-        <h2>Professional Experience</h2>
-        <div class="experience-timeline">
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Software Developer</h3>
-                    <div class="company">Appventurez</div>
-                    <div class="duration">February 2024 - Present (1 yr 9 mos)</div>
-                    <ul>
-                        <li>Applied SOLID Principles and Dependency Injection in Flutter development for maintainable applications</li>
-                        <li>Integrated Google Fit API for health data synchronization through Method Channels</li>
-                        <li>Resolved package conflicts and deployment issues for successful Play Store and App Store releases</li>
-                        <li>Developed multi-role loan application supporting customer-to-employee workflows</li>
-                        <li>Managed multiple projects including financial tracking, health apps, and delivery systems</li>
+        <section id="projects">
+            <h2>Flagship Projects</h2>
+            <p class="section-subtitle">A tour across mission-critical products spanning finance, health, AI, media, smart homes, and hyper-local services.</p>
+            <div class="projects-grid">
+                <article class="project-card">
+                    <div class="project-meta">Appventurez · Fintech</div>
+                    <h3>EFL Click - Multi-Type Loan Platform</h3>
+                    <p>End-to-end loan orchestration for property, vehicle, solar, machine, and business financing with multi-role workflows.</p>
+                    <ul class="project-highlights">
+                        <li>Integrated RESTful APIs for loan data intake, status tracking, and approvals.</li>
+                        <li>Implemented hierarchical approval journey covering customers, sales teams, and regional managers.</li>
+                        <li>Enabled residential solar loan flows with KYC capture and credential verification.</li>
                     </ul>
-                </div>
-            </div>
+                    <div class="project-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.efl.oneapp&hl=en" target="_blank">Play Store</a>
+                        <a href="#skills">Tech: Flutter · REST APIs · GitLab</a>
+                    </div>
+                </article>
 
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Software Developer</h3>
-                    <div class="company">Baliza</div>
-                    <div class="duration">July 2021 - June 2023 (1 yr 11 mos)</div>
-                    <ul>
-                        <li>Designed AI-powered museum chatbot with ChatGPT API and speech functionality</li>
-                        <li>Conducted client meetings and provided daily progress updates for transparent communication</li>
-                        <li>Implemented Clean Architecture pattern across Flutter projects</li>
-                        <li>Designed and managed Firebase database aligned with UML diagrams</li>
-                        <li>Integrated Stripe payment gateway with webhook implementation</li>
-                        <li>Developed real-time messaging with push notifications for Android/iOS</li>
-                        <li>Utilized multiple state management solutions (Provider, GetX, Bloc) across projects</li>
+                <article class="project-card">
+                    <div class="project-meta">Appventurez · Healthtech</div>
+                    <h3>FitnEarn - Wellness Rewards</h3>
+                    <p>Gamified wellness platform rewarding workouts with seamless payment flows and real-time activity sync.</p>
+                    <ul class="project-highlights">
+                        <li>Integrated Google Fit through Method Channels with resilient background sync.</li>
+                        <li>Resolved video player and performance issues for smooth guided sessions.</li>
+                        <li>Connected Razorpay for frictionless subscription payments.</li>
                     </ul>
+                    <div class="project-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.fitearn.meditate&hl=en" target="_blank">Play Store</a>
+                        <a href="#skills">Tech: Flutter · Razorpay · REST APIs</a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">Appventurez · Healthtech</div>
+                    <h3>Healthyium - Juice Subscription Delivery</h3>
+                    <p>Subscription-first juice delivery experience with delivery agent app and precise order logistics.</p>
+                    <ul class="project-highlights">
+                        <li>Crafted cross-platform consumer and delivery UI components.</li>
+                        <li>Connected REST APIs for live order and route data.</li>
+                        <li>Streamlined fulfillment tracking for reliable doorstep delivery.</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="#skills">Tech: Flutter · REST APIs · Git</a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">Appventurez · Fintech</div>
+                    <h3>Goal Seek - Financial Goal Manager</h3>
+                    <p>Personal finance cockpit helping users track assets, set milestones, and view multi-asset analytics.</p>
+                    <ul class="project-highlights">
+                        <li>Designed asset onboarding for gold, equity, mutual funds, and real estate.</li>
+                        <li>Rendered goal tracking dashboards with dynamic charts and projections.</li>
+                        <li>Optimized REST integrations for responsive portfolio insights.</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="#skills">Tech: Flutter · REST APIs · Data Viz</a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">Baliza · AI + Culture</div>
+                    <h3>Davinci - AI Museum Guide</h3>
+                    <p>Conversational museum companion leveraging ChatGPT for multilingual tours and voice-led discovery.</p>
+                    <ul class="project-highlights">
+                        <li>Blended speech-to-text with AI responses for natural dialog.</li>
+                        <li>Delivered content management via Flutter with Clean Architecture.</li>
+                        <li>Sustained cross-platform performance for kiosks and handheld devices.</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="https://www.baliza.io/clientes" target="_blank">Case Study</a>
+                        <a href="#skills">Tech: Flutter · ChatGPT API · Firebase</a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">Baliza · Media</div>
+                    <h3>Noficcion - Streaming Experience</h3>
+                    <p>Streaming service for Spain with curated documentary catalog and unified playback across devices.</p>
+                    <ul class="project-highlights">
+                        <li>Shipped Android, iOS, and web builds from a shared Flutter codebase.</li>
+                        <li>Optimized REST integrations for high-volume content delivery.</li>
+                        <li>Improved user retention through responsive UI and personalization.</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="https://www.baliza.io/clientes" target="_blank">Case Study</a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">Baliza · Proptech</div>
+                    <h3>Ziro - Real Estate Marketplace</h3>
+                    <p>End-to-end property discovery platform with secure transactions, geolocation, and map drawing tools.</p>
+                    <ul class="project-highlights">
+                        <li>Integrated map drawing workflows for neighborhood-specific searches.</li>
+                        <li>Implemented secure Stripe payments and escrow-ready flows.</li>
+                        <li>Built React-powered admin companion for property operations.</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="#skills">Tech: Flutter · React · Stripe · Firebase</a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">Baliza · Smart Living</div>
+                    <h3>IOPARK - Secure Key Sharing</h3>
+                    <p>Offline-ready digital key platform handling encrypted access across low-connectivity environments.</p>
+                    <ul class="project-highlights">
+                        <li>Used Bluetooth and beacon tech for no-internet scenarios.</li>
+                        <li>Synced access logs once devices reconnect to the cloud.</li>
+                        <li>Designed intuitive guest invite workflows for homeowners.</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="https://www.baliza.io/clientes" target="_blank">Case Study</a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">Baliza · AgriTech</div>
+                    <h3>NewFarm - Plant Lifecycle Management</h3>
+                    <p>IoT-powered agriculture assistant tracking plant health, MARCOS device telemetry, and growth insights.</p>
+                    <ul class="project-highlights">
+                        <li>Visualized environmental metrics for proactive farming decisions.</li>
+                        <li>Automated data capture from MARCOS hardware in real time.</li>
+                        <li>Elevated crop yield visibility through lifecycle dashboards.</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="#skills">Tech: Flutter · IoT · Firebase</a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">Baliza · FoodTech</div>
+                    <h3>YieldEat - Restaurant Management</h3>
+                    <p>Web-first restaurant cockpit for menu orchestration, live order tracking, and kitchen coordination.</p>
+                    <ul class="project-highlights">
+                        <li>Delivered responsive Flutter web experience for staff workflows.</li>
+                        <li>Improved order accuracy with real-time status updates.</li>
+                        <li>Integrated secure Stripe payments for settlements.</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="#skills">Tech: Flutter · Stripe · Firebase</a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">Baliza · Security</div>
+                    <h3>Velor - Device Camera Monitoring</h3>
+                    <p>Repurposing legacy devices into smart surveillance endpoints for affordable monitoring.</p>
+                    <ul class="project-highlights">
+                        <li>Transformed old hardware into live security feeds with Flutter.</li>
+                        <li>Implemented encrypted video transfer for home safety.</li>
+                        <li>Boosted sustainability by extending device life cycles.</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="#skills">Tech: Flutter · Security · Git</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Experience</h2>
+            <p class="section-subtitle">Partnering with multidisciplinary squads to launch user-loved products and unlock revenue across continents.</p>
+            <div class="experience-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Software Developer</h3>
+                        <div class="company">Appventurez · Noida, Uttar Pradesh</div>
+                        <div class="duration">February 2024 - Present</div>
+                        <ul>
+                            <li>Architected Flutter apps with SOLID principles, DI, and modular feature delivery.</li>
+                            <li>Integrated Google Fit API via Method Channels, syncing live activity to backend services.</li>
+                            <li>Unblocked Play Store and App Store releases by resolving package naming and certificate conflicts.</li>
+                            <li>Delivered multi-role loan operations platform with role-based credential guardrails.</li>
+                            <li>Maintained sprint velocity across financial, health, and logistics initiatives.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Software Developer</h3>
+                        <div class="company">Baliza · Noida, Uttar Pradesh</div>
+                        <div class="duration">July 2021 - June 2023</div>
+                        <ul>
+                            <li>Built AI-first museum guide with ChatGPT API, voice support, and multilingual flows.</li>
+                            <li>Aligned project scopes through diligent client workshops and daily progress rituals.</li>
+                            <li>Adopted Clean Architecture and multi-state management strategies for scalable delivery.</li>
+                            <li>Engineered Firebase data models with automated Cloud Functions for real-time sync.</li>
+                            <li>Integrated Stripe with webhook automation, real-time messaging, and push notifications.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact">
-        <h2>Let's Connect</h2>
-        <div class="contact-grid">
-            <div>
-                <h3 style="color: #c0c0c0; margin-bottom: 1.5rem;">Ready to collaborate on innovative projects</h3>
-                <p style="color: #a0a0a0; line-height: 1.8;">I'm always interested in hearing about new opportunities, especially ambitious or large-scale projects. Whether you have a question or just want to say hi, feel free to reach out!</p>
-            </div>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">📧</div>
-                    <div class="contact-details">
-                        <h4>Email</h4>
-                        <a href="mailto:work.moyeen@gmail.com">work.moyeen@gmail.com</a>
-                    </div>
-                </div>
-
-                <div class="contact-item">
-                    <div class="contact-icon">📱</div>
-                    <div class="contact-details">
-                        <h4>Phone</h4>
-                        <a href="tel:+918527436117">+91-8527436117</a>
-                    </div>
-                </div>
-
-                <div class="contact-item">
-                    <div class="contact-icon">💼</div>
-                    <div class="contact-details">
-                        <h4>LinkedIn</h4>
-                        <a href="https://linkedin.com/in/moyeen-haider" target="_blank">linkedin.com/in/moyeen-haider</a>
-                    </div>
-                </div>
-
-                <div class="contact-item">
-                    <div class="contact-icon">💻</div>
-                    <div class="contact-details">
-                        <h4>GitHub</h4>
-                        <a href="https://github.com/moyeenhaider3" target="_blank">github.com/moyeenhaider3</a>
-                    </div>
-                </div>
-
-                <div class="contact-item">
-                    <div class="contact-icon">📍</div>
-                    <div class="contact-details">
-                        <h4>Location</h4>
-                        <span style="color: #c0c0c0;">Jamia Nagar, New Delhi, India</span>
-                    </div>
+        <section id="education">
+            <h2>Education</h2>
+            <p class="section-subtitle">An engineering foundation that powers pragmatic decision-making in fast-moving product teams.</p>
+            <div class="education-grid">
+                <div class="education-card">
+                    <h3>Bachelor of Technology · Computer Science</h3>
+                    <p>JIMS (GGSIPU) · August 2016 - July 2020</p>
+                    <p style="margin-top: 0.8rem; color: var(--text-muted);">Graduated with GPA 8.2 while captaining hackathons and deep dives into mobile architecture and machine learning.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section id="certifications">
+            <h2>Certifications</h2>
+            <p class="section-subtitle">Continuous learning to stay ahead of platform updates, AI breakthroughs, and security mandates.</p>
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <h3>AI & ML Short-Term Training Program</h3>
+                    <p>Jamia Millia Islamia (JMI) · Focused on supervised and unsupervised learning with real-world analytics assignments.</p>
+                    <a href="https://drive.google.com/file/d/1Fy-mcBu4_bz8HDWRFltxHl8hRrnbX2T3/view" target="_blank">View Credential</a>
+                </div>
+                <div class="cert-card">
+                    <h3>Prompt Engineering PRO</h3>
+                    <p>Udemy · Advanced strategies for ChatGPT and generative AI integrations across products and workflows.</p>
+                    <a href="https://www.udemy.com/certificate/UC-98303ca1-162b-4e42-94e2-667025b5e6c4/" target="_blank">View Credential</a>
+                </div>
+                <div class="cert-card">
+                    <h3>Google Gemini A-Z</h3>
+                    <p>Udemy · Comprehensive guide to building Gemini-backed experiences with production-ready best practices.</p>
+                    <a href="https://www.udemy.com/certificate/UC-3bc73c29-c73d-4317-a0d7-2609c47dfa52/" target="_blank">View Credential</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact</h2>
+            <p class="section-subtitle">Let us explore bold product ideas or tune up an existing stack. Reach out for collaborations, audits, or a quick discovery chat.</p>
+            <div class="contact-grid">
+                <div class="contact-intro">
+                    <span class="contact-eyebrow">Let's Collaborate</span>
+                    <h3>Designing secure, AI-ready Flutter products for ambitious teams.</h3>
+                    <p>Contract engagements, product partnerships, and advisory on Flutter architecture, security reinforcement, and AI-led features. I respond swiftly to email and LinkedIn queries.</p>
+                    <div class="availability-tags">
+                        <span class="availability-tag">Contract</span>
+                        <span class="availability-tag">Product Sprints</span>
+                        <span class="availability-tag">Architecture Audits</span>
+                    </div>
+                    <div class="contact-cta">
+                        <a href="mailto:work.moyeen@gmail.com" class="btn btn-primary">Book a Discovery Call</a>
+                        <a href="https://linkedin.com/in/moyeen-haider" target="_blank" class="btn btn-secondary">Connect on LinkedIn</a>
+                    </div>
+                </div>
+                <div class="contact-details-stack">
+                    <div class="contact-card accent">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <a href="mailto:work.moyeen@gmail.com">work.moyeen@gmail.com</a>
+                            <span class="contact-note">Best for detailed briefs and proposals.</span>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <a href="tel:+918527436117">+91-8527436117</a>
+                            <span class="contact-note">Available for urgent coordination and quick syncs.</span>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-details">
+                            <h4>LinkedIn</h4>
+                            <a href="https://linkedin.com/in/moyeen-haider" target="_blank">linkedin.com/in/moyeen-haider</a>
+                            <span class="contact-note">Perfect for networking, speaking invites, and collaborations.</span>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">M</div>
+                        <div class="contact-details">
+                            <h4>Medium</h4>
+                            <a href="https://medium.com/@moyeen_haider" target="_blank">medium.com/@moyeen_haider</a>
+                            <span class="contact-note">Latest Flutter deep dives, product reflections, and engineering notes.</span>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">💻</div>
+                        <div class="contact-details">
+                            <h4>GitHub</h4>
+                            <a href="https://github.com/moyeenhaider3" target="_blank">github.com/moyeenhaider3</a>
+                            <span class="contact-note">Explore open-source contributions and recent experiments.</span>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Location</h4>
+                            <span>Jamia Nagar, New Delhi, India</span>
+                            <span class="contact-note">Collaborating remotely with teams across time zones.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <p>&copy; 2024 Moyeen Haider. Built with passion for innovation.</p>
+        <p>&copy; 2024 Moyeen Haider. Crafted with Flutter precision and a love for meaningful products.</p>
     </footer>
 
     <script>
-        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const href = this.getAttribute('href');
+                if (href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
             });
         });
 
-        // Add scroll animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -804,9 +1346,9 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.skill-card, .project-card, .timeline-item').forEach(el => {
+        document.querySelectorAll('.skill-card, .project-card, .timeline-item, .education-card, .cert-card, .contact-card').forEach(el => {
             el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
+            el.style.transform = 'translateY(25px)';
             el.style.transition = 'all 0.6s ease-out';
             observer.observe(el);
         });
